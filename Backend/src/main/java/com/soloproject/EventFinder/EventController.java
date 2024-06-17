@@ -1,6 +1,7 @@
 package com.soloproject.EventFinder;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import org.json.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173/")
 public class EventController {
     public String url = "https://app.ticketmaster.com/discovery/v2/suggest?apikey=SuUqmKq5wDB7PbLtxlPKf1VQBiVA91Bo";
     public String cityURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=";
@@ -24,7 +26,7 @@ public class EventController {
     }
 
     @GetMapping("/submitCity")
-    public String submitCity(@RequestParam("CityName") String cityName, Model model){
+    public ArrayList<String> submitCity(@RequestParam("CityName") String cityName, Model model){
         String URL = this.cityURL + cityName + "&" + this.API;
         String jsonData = restTemplate.getForObject(URL, String.class);
         JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
@@ -35,6 +37,6 @@ public class EventController {
             events.add(arr.getJSONObject(i).getString("name"));
         }
         System.out.println(events);
-        return jsonData;
+        return events;
     }
 }
