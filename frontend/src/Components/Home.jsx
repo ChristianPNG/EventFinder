@@ -8,7 +8,14 @@ export function Home() {
         e.preventDefault();
         try {
             const data = await api.get(`/submitCity?CityName=${city}`);
-            console.log(data);
+            const map = data.data;
+            console.log(map);
+            for (var i in map) {
+                console.log("name: " + i);
+                console.log("url: " + map[i][0]);
+                console.log("img: " + map[i][1]);
+                console.log("---------");
+            }
         } catch (error) {
             console.log(error);
         }

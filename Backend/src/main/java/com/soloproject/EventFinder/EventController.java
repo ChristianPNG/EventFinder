@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.*;
 
@@ -26,17 +27,23 @@ public class EventController {
     }
 
     @GetMapping("/submitCity")
-    public ArrayList<String> submitCity(@RequestParam("CityName") String cityName, Model model){
+    public HashMap<String, ArrayList<String>> submitCity(@RequestParam("CityName") String cityName, Model model){
         String URL = this.cityURL + cityName + "&" + this.API;
         String jsonData = restTemplate.getForObject(URL, String.class);
         JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
         JSONArray arr = obj.getJSONArray("events");
+        HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
 
-        ArrayList<String> events = new ArrayList<>();
+        //ArrayList<String> eventURLs = new ArrayList<>();
         for (int i = 0; i<20; i++){
-            events.add(arr.getJSONObject(i).getString("name"));
+            ArrayList<String> event = new ArrayList<>();
+            event.add(arr.getJSONObject(i).getString("url"));
+            event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
+            map.put(arr.getJSONObject(i).getString("name"), event);
         }
-        System.out.println(events);
-        return events;
+        for (ArrayList<String> v: map.values()){
+            System.out.println(v.get(0)+" "+v.get(1));
+        }
+        return map;
     }
 }

@@ -4,34 +4,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="/css/index.css" />
         <!-- Include common CSS files here -->
     </head>
     <body>
-        <div class="search-page">
-            <div class="header">
-                <div class="banner">
-                    <h1 class="banner-text">Event Finder</h1>
-                </div>
-            </div>
-            <div class="search-bar-container">
-                <h2 class="search-bar-title">Search For an Event</h2>
-                <form th:action="@{/submitCity}" method="get">
-                    <input
-                        type="text"
-                        placeholder="Enter City..."
-                        name="CityName"
-                        class="search-bar"
-                        autocomplete="nope"
-                        required
-                    />
-                    <button type="submit" class="submit-btn">X</button>
-                </form>
-            </div>
-        </div>
-        <!-- Content specific to each page will be included here -->
-
-        <!-- Common footer or other elements -->
-        <footer>&copy; 2024 My Website</footer>
+        Backend Server for EventFinder project running...
     </body>
 </html>
