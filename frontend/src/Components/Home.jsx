@@ -1,25 +1,8 @@
 import { useState } from "react";
 import "../css/Home.css";
-import api from "../api/axiosConfigs";
 
 export function Home() {
     const [city, setCity] = useState("");
-    async function handleCityGET(e) {
-        e.preventDefault();
-        try {
-            const data = await api.get(`/submitCity?CityName=${city}`);
-            const map = data.data;
-            console.log(map);
-            for (var i in map) {
-                console.log("name: " + i);
-                console.log("url: " + map[i][0]);
-                console.log("img: " + map[i][1]);
-                console.log("---------");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
     return (
         <div className="home">
             <div className="search-page">
@@ -30,7 +13,7 @@ export function Home() {
                 </div>
                 <div className="search-bar-container">
                     <h2 className="search-bar-title">Search For an Event</h2>
-                    <form onSubmit={handleCityGET}>
+                    <form>
                         <input
                             type="text"
                             placeholder="Enter City..."
@@ -41,7 +24,7 @@ export function Home() {
                             onChange={(e) => setCity(e.target.value)}
                         />
                         <a
-                            href={"/EventsList"}
+                            href={`/EventsList/${city}`}
                             type="submit"
                             className="submit-btn"
                         >
