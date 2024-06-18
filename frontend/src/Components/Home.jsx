@@ -40,9 +40,13 @@ export function Home() {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         />
-                        <button type="submit" className="submit-btn">
+                        <a
+                            href={"/EventsList"}
+                            type="submit"
+                            className="submit-btn"
+                        >
                             X
-                        </button>
+                        </a>
                     </form>
                 </div>
             </div>
