@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
+import "../css/EventList.css";
 
 export function EventsList() {
     const { city } = useParams();
@@ -21,10 +22,13 @@ export function EventsList() {
     return (
         <ul>
             {Object.keys(map).map((name) => (
-                <li key={name}>
-                    <p>{name}</p>
-                    <a href={map[name][0]}>{map[name][0]}</a>
-                </li>
+                <div key={name} className="eventLists">
+                    <img height="100px" width="150px" src={map[name][1]} />
+                    <div style={{ height: "100px" }}>
+                        <p>{name}</p>
+                        <a href={map[name][0]}>{map[name][0]}</a>
+                    </div>
+                </div>
             ))}
         </ul>
     );

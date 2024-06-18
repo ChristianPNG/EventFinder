@@ -1,0 +1,12 @@
+.eventLists {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    margin-bottom: 40px;
+    margin-top: 25px;
+}
+
+img {
+    margin-right: 20px;
+    border-radius: 10px;
+}
