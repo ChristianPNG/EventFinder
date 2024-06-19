@@ -27,8 +27,10 @@ public class EventController {
     }
 
     @GetMapping("/submitCity")
-    public HashMap<String, ArrayList<String>> submitCity(@RequestParam("CityName") String cityName, Model model){
-        String URL = this.cityURL + cityName + "&" + this.API;
+    public HashMap<String, ArrayList<String>> submitCity(@RequestParam("CityName") String cityName, 
+    @RequestParam("page") String page,  Model model){
+        System.out.println(page);
+        String URL = this.cityURL + cityName + "&size=20&page="+ page + "&" + this.API;
         String jsonData = restTemplate.getForObject(URL, String.class);
         JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
         JSONArray arr = obj.getJSONArray("events");
@@ -37,12 +39,12 @@ public class EventController {
         //ArrayList<String> eventURLs = new ArrayList<>();
         for (int i = 0; i<20; i++){
             ArrayList<String> event = new ArrayList<>();
+            if (i >= arr.length()){
+                break;
+            }
             event.add(arr.getJSONObject(i).getString("url"));
             event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
             map.put(arr.getJSONObject(i).getString("name"), event);
-        }
-        for (ArrayList<String> v: map.values()){
-            System.out.println(v.get(0)+" "+v.get(1));
         }
         return map;
     }
