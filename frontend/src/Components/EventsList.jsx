@@ -6,16 +6,30 @@ import "../css/EventList.css";
 export function EventsList() {
     const { city } = useParams();
     const [map, setMap] = useState({});
-    const [count, setCount] = useState(1); //count needs to be a state as a let var will reset back to default
+    const [count, setCount] = useState(0); //count needs to be a state as a let var will reset back to default
     async function fetchNextData(e) {
         e.preventDefault();
-        console.log(count);
         try {
             const res = await api.get(
-                `/submitCity?CityName=${city}&page=${count}`
+                `/submitCity?CityName=${city}&page=${count + 1}`
             );
             setMap(res.data);
             setCount(count + 1);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async function fetchPrevData(e) {
+        e.preventDefault();
+        try {
+            if (count === 0) {
+                return;
+            }
+            const res = await api.get(
+                `/submitCity?CityName=${city}&page=${count - 1}`
+            );
+            setMap(res.data);
+            setCount(count - 1);
         } catch (error) {
             console.log(error);
         }
@@ -49,6 +63,7 @@ export function EventsList() {
                     </div>
                 ))}
             </ul>
+            <button onClick={(e) => fetchPrevData(e)}>Prev</button>
             <button onClick={(e) => fetchNextData(e)}>Next</button>
         </div>
     );
