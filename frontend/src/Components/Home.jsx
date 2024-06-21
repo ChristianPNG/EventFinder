@@ -3,6 +3,7 @@ import "../css/Home.css";
 
 export function Home() {
     const [city, setCity] = useState("");
+    const [attraction, setAttraction] = useState("");
     return (
         <div className="home">
             <div className="search-page">
@@ -23,8 +24,22 @@ export function Home() {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                         />
+                        <input
+                            type="text"
+                            placeholder="Enter Artist or Event..."
+                            name="EventName"
+                            className="search-bar"
+                            autoComplete="none"
+                            value={attraction}
+                            style={{
+                                borderBottomLeftRadius: "0",
+                                borderTopLeftRadius: "0",
+                                borderLeft: "1px solid white",
+                            }}
+                            onChange={(e) => setAttraction(e.target.value)}
+                        />
                         <a
-                            href={`/EventsList/${city}`}
+                            href={`/EventsList/${city}/${attraction}`}
                             type="submit"
                             className="submit-btn"
                         >

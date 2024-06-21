@@ -16,21 +16,16 @@ import org.json.*;
 @RestController
 @CrossOrigin(origins = "http://localhost:5173/")
 public class EventController {
-    public String url = "https://app.ticketmaster.com/discovery/v2/suggest?apikey=SuUqmKq5wDB7PbLtxlPKf1VQBiVA91Bo";
-    public String cityURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=";
     public String API = "apikey=SuUqmKq5wDB7PbLtxlPKf1VQBiVA91Bo";
     RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("/events")
-    public String getEventDetails(){
-        return restTemplate.getForObject(this.url, String.class);
-    }
 
     @GetMapping("/submitCity")
     public HashMap<String, ArrayList<String>> submitCity(@RequestParam("CityName") String cityName, 
-    @RequestParam("page") String page,  Model model){
+    @RequestParam("page") String page,  @RequestParam("keyword") String attraction, Model model){
+        String cityURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=";
         System.out.println(page);
-        String URL = this.cityURL + cityName + "&size=20&page="+ page + "&" + this.API;
+        String URL = cityURL + cityName + "&size=20&page="+ page + "&keyword=" + attraction + "&" + this.API;
         String jsonData = restTemplate.getForObject(URL, String.class);
         JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
         JSONArray arr = obj.getJSONArray("events");
