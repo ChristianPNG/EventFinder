@@ -2,23 +2,23 @@ import { useParams } from "react-router-dom";
 import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
 import "../css/EventList.css";
-import axios from "axios";
 
 export function EventsList() {
     const { city, attraction } = useParams();
     const [map, setMap] = useState({});
     const [count, setCount] = useState(0); //count needs to be a state as a let var will reset back to default
 
-    function buildURL() {
+    function buildURL(currCount) {
+        console.log(currCount);
         let url = "";
         if (city != "") {
             url += `/eventSearch?CityName=${city}`;
-            url += `&page=${count}`;
+            url += `&page=${currCount}`;
             if (attraction) {
                 url += `&keyword=${attraction}`;
             }
         } else {
-            url += `/attractionSearch?page=${count}&keyword=${attraction}`;
+            url += `/attractionSearch?page=${currCount}&keyword=${attraction}`;
         }
         return url;
     }
@@ -26,7 +26,7 @@ export function EventsList() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await api.get(buildURL());
+                const res = await api.get(buildURL(count));
                 setMap(res.data);
             } catch (error) {
                 console.log(error);
@@ -39,13 +39,9 @@ export function EventsList() {
     async function fetchNextData(e) {
         e.preventDefault();
         try {
-            const res = await api.get(
-                `/submitCity?CityName=${city}&page=${
-                    count + 1
-                }&keyword=${attraction}`
-            );
-            setMap(res.data);
             setCount(count + 1);
+            const res = await api.get(buildURL(count + 1));
+            setMap(res.data);
         } catch (error) {
             console.log(error);
         }
@@ -56,13 +52,9 @@ export function EventsList() {
             if (count === 0) {
                 return;
             }
-            const res = await api.get(
-                `/submitCity?CityName=${city}&page=${
-                    count - 1
-                }&keyword=${attraction}`
-            );
-            setMap(res.data);
             setCount(count - 1);
+            const res = await api.get(buildURL(count - 1));
+            setMap(res.data);
         } catch (error) {
             console.log(error);
         }
