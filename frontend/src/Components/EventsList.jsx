@@ -2,11 +2,40 @@ import { useParams } from "react-router-dom";
 import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
 import "../css/EventList.css";
+import axios from "axios";
 
 export function EventsList() {
     const { city, attraction } = useParams();
     const [map, setMap] = useState({});
     const [count, setCount] = useState(0); //count needs to be a state as a let var will reset back to default
+
+    function buildURL() {
+        let url = "";
+        if (city != "") {
+            url += `/eventSearch?CityName=${city}`;
+            url += `&page=${count}`;
+            if (attraction) {
+                url += `&keyword=${attraction}`;
+            }
+        } else {
+            url += `/attractionSearch?page=${count}&keyword=${attraction}`;
+        }
+        return url;
+    }
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await api.get(buildURL());
+                setMap(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     async function fetchNextData(e) {
         e.preventDefault();
         try {
@@ -38,22 +67,6 @@ export function EventsList() {
             console.log(error);
         }
     }
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const res = await api.get(
-                    `/submitCity?CityName=${city}&page=0&keyword=${attraction}`
-                );
-                setMap(res.data);
-                console.log("effect ran");
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     return (
         <div>
             <ul>

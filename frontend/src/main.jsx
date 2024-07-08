@@ -15,6 +15,14 @@ const router = createBrowserRouter([
         path: "/EventsList/:city/:attraction",
         element: <EventsList />,
     },
+    {
+        path: "/EventsList/:city",
+        element: <EventsList />,
+    },
+    {
+        path: "/AttractionsList/:attraction",
+        element: <EventsList />,
+    },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
