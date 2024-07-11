@@ -9,6 +9,7 @@ export function EventsList() {
     const [count, setCount] = useState(0); //count needs to be a state as a let var will reset back to default
     const [eventsPage, setEventsPage] = useState(true);
     const [artistSearch, setArtistSearch] = useState(false);
+    const [inputFlag, setInputFlag] = useState(false);
 
     function buildURL(currCount, artistPage, id) {
         //build the url we will use to do the API call on
@@ -31,13 +32,16 @@ export function EventsList() {
     }
 
     async function viewArtist(id) {
-        setArtistSearch(true);
-        setEventsPage(true);
         try {
             const res = await api.get(buildURL(count, true, id));
+            setArtistSearch(true);
+            setEventsPage(true);
             setMap(res.data);
         } catch (error) {
-            console.log(error);
+            setInputFlag(true);
+            setTimeout(() => {
+                setInputFlag(false);
+            }, 2000);
         }
     }
 
@@ -98,6 +102,11 @@ export function EventsList() {
                         </div>
                     ))}
                 </ul>
+            )}
+            {inputFlag && (
+                <div className="errorBlock" style={{ color: "red" }}>
+                    No events found.
+                </div>
             )}
             {!eventsPage && (
                 <ul>

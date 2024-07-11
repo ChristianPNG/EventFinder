@@ -76,9 +76,6 @@ public class EventController {
         String jsonData = restTemplate.getForObject(url, String.class);
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         JSONObject obj = new JSONObject(jsonData);
-        if (!obj.has("_embedded")){
-            return map;
-        }
         obj = obj.getJSONObject("_embedded");
         JSONArray arr = obj.getJSONArray("events");
         //ArrayList<String>eventURLs = new ArrayList<>();
