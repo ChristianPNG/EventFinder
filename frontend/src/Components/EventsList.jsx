@@ -10,7 +10,7 @@ export function EventsList() {
     const [eventsPage, setEventsPage] = useState(true);
     const [artistSearch, setArtistSearch] = useState(false);
 
-    function buildURL(currCount, artistPage) {
+    function buildURL(currCount, artistPage, id) {
         //build the url we will use to do the API call on
         console.log(currCount);
         let url = "";
@@ -19,10 +19,10 @@ export function EventsList() {
             url += `&page=${currCount}`;
             if (attraction) {
                 url += `&keyword=${attraction}`;
-            } else if (artistPage) {
-                url += `/eventSearch?`;
-                url += `page=${currCount}&attractionId=${artistSearch}`;
             }
+        } else if (artistPage) {
+            url += `/attraction?`;
+            url += `page=${currCount}&attractionId=${id}`;
         } else {
             setEventsPage(false);
             url += `/attractionSearch?page=${currCount}&keyword=${attraction}`;
@@ -30,11 +30,11 @@ export function EventsList() {
         return url;
     }
 
-    async function viewArtist(e) {
-        e.preventDefault();
+    async function viewArtist(id) {
         setArtistSearch(true);
+        setEventsPage(true);
         try {
-            const res = await api.get(buildURL(count, true));
+            const res = await api.get(buildURL(count, true, id));
             setMap(res.data);
         } catch (error) {
             console.log(error);
@@ -61,7 +61,7 @@ export function EventsList() {
             //react hooks work. count won't be updated by setCount() until the end of the function so it's just
             //sent via a param for immediate use
             setCount(count + 1);
-            const res = await api.get(buildURL(count + 1), artistSearch);
+            const res = await api.get(buildURL(count + 1), artistSearch, "");
             setMap(res.data);
         } catch (error) {
             console.log(error);
@@ -74,7 +74,7 @@ export function EventsList() {
                 return;
             }
             setCount(count - 1);
-            const res = await api.get(buildURL(count - 1), artistSearch);
+            const res = await api.get(buildURL(count - 1), artistSearch, "");
             setMap(res.data);
         } catch (error) {
             console.log(error);
@@ -110,7 +110,9 @@ export function EventsList() {
                             />
                             <div>
                                 <p>{name}</p>
-                                <button onClick={(e) => viewArtist(e)}>
+                                <button
+                                    onClick={() => viewArtist(map[name][0])}
+                                >
                                     X
                                 </button>
                             </div>

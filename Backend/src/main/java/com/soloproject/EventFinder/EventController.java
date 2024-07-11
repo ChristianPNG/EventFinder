@@ -68,4 +68,30 @@ public class EventController {
 
 
     }
+    @GetMapping("/attraction")
+    public HashMap<String, ArrayList<String>> attraction(@RequestParam("attractionId") String id, 
+    @RequestParam("page") String page, Model model){
+        String url = "https://app.ticketmaster.com/discovery/v2/events.json?";
+        url += "size=15&page=" + page + "&attractionId=" + id + "&" + this.API;
+        String jsonData = restTemplate.getForObject(url, String.class);
+        HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+        JSONObject obj = new JSONObject(jsonData);
+        if (!obj.has("_embedded")){
+            return map;
+        }
+        obj = obj.getJSONObject("_embedded");
+        JSONArray arr = obj.getJSONArray("events");
+        //ArrayList<String>eventURLs = new ArrayList<>();
+        for (int i = 0; i<20; i++){
+            ArrayList<String> event = new ArrayList<>();
+            if (i >= arr.length()){
+                break;
+            }
+            event.add(arr.getJSONObject(i).getString("url"));
+            event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
+            map.put(arr.getJSONObject(i).getString("name"), event);
+        }
+        System.out.println(map);
+        return map;
+    }
 }
