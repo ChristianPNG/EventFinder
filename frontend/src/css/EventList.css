@@ -9,6 +9,8 @@
 img {
     margin-right: 20px;
     border-radius: 10px;
+    height: 100px;
+    width: 170px;
 }
 
 .errorBlock {
@@ -57,4 +59,10 @@ p {
     text-align: center;
     color: black;
     font-size: 15px;
+}
+
+.time {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(101, 101, 101);
 }

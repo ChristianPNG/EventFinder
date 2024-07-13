@@ -42,10 +42,25 @@ public class EventController {
             JSONObject dates = arr.getJSONObject(i).getJSONObject("dates");
             event.add(arr.getJSONObject(i).getString("url"));
             event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
+
             String event_date[] = dates.getJSONObject("start").getString("localDate").split("-");
             event.add(event_date[1]); //month
             event.add(event_date[2]); //day
+
             event.add(dates.getJSONObject("status").getString("code"));
+
+            String event_time[] = dates.getJSONObject("start").getString("localTime").split(":");
+            int hour = Integer.valueOf(event_time[0]);
+            if (hour > 12){
+                hour = hour - 12;
+                event_time[0] = String.valueOf(hour);
+                event_time[1] += " PM";
+            }
+            else{
+                event_time[1] += " AM";
+            }
+            event.add(event_time[0]); //hour
+            event.add(event_time[1]); //minute
             map.put(arr.getJSONObject(i).getString("name"), event);
         }
         return map;

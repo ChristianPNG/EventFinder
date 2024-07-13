@@ -111,11 +111,7 @@ export function EventsList() {
                     {Object.keys(map).map((name) => (
                         <div key={name}>
                             <div className="eventLists">
-                                <img
-                                    height="100px"
-                                    width="170px"
-                                    src={map[name][1]}
-                                />
+                                <img src={map[name][1]} />
                                 <div className="date">
                                     <p className="month">
                                         {months[map[name][2]]}
@@ -124,9 +120,15 @@ export function EventsList() {
                                 </div>
                                 <div className="info">
                                     <p>{name}</p>
+                                    <p className="time">
+                                        {map[name][5]}:{map[name][6]}
+                                    </p>
                                     <a target={"_blank"} href={map[name][0]}>
                                         View Tickets
                                     </a>
+                                    {/*[map[name][4]] = status code, mapped to the 'cancelled' hashmap will be 
+                                    either null or a value. If its null this block will not be shown due 
+                                    to how <null> && () works by eliminating the next block if the first half is null*/}
                                     {cancelled[map[name][4]] && (
                                         <p className="cancelled-display">
                                             {cancelled[map[name][4]]}
