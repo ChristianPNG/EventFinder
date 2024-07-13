@@ -18,6 +18,11 @@ const months = {
     12: "DEC",
 };
 
+const cancelled = {
+    cancelled: "CANCELLED",
+    onsale: null,
+};
+
 export function EventsList() {
     const { city, attraction } = useParams();
     const [map, setMap] = useState({});
@@ -122,6 +127,11 @@ export function EventsList() {
                                     <a target={"_blank"} href={map[name][0]}>
                                         View Tickets
                                     </a>
+                                    {cancelled[map[name][4]] && (
+                                        <p className="cancelled-display">
+                                            {cancelled[map[name][4]]}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             <hr></hr>
