@@ -25,3 +25,28 @@ img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000; /* Ensure the popup is on top */
 }
+
+.date {
+    height: 100px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.day {
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+p {
+    margin: 0;
+    font-size: 18px;
+}
+
+.info {
+    margin: 25px;
+}

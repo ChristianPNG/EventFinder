@@ -39,8 +39,13 @@ public class EventController {
             if (i >= arr.length()){
                 break;
             }
+            JSONObject dates = arr.getJSONObject(i).getJSONObject("dates");
             event.add(arr.getJSONObject(i).getString("url"));
             event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
+            String event_date[] = dates.getJSONObject("start").getString("localDate").split("-");
+            event.add(event_date[1]); //month
+            event.add(event_date[2]); //day
+            event.add(dates.getJSONObject("status").getString("code"));
             map.put(arr.getJSONObject(i).getString("name"), event);
         }
         return map;

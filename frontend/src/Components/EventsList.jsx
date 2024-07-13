@@ -3,6 +3,21 @@ import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
 import "../css/EventList.css";
 
+const months = {
+    "01": "JAN",
+    "02": "FEB",
+    "03": "MAR",
+    "04": "APR",
+    "05": "MAY",
+    "06": "JUN",
+    "07": "JUL",
+    "08": "AUG",
+    "09": "SEP",
+    10: "OCT",
+    11: "NOV",
+    12: "DEC",
+};
+
 export function EventsList() {
     const { city, attraction } = useParams();
     const [map, setMap] = useState({});
@@ -89,16 +104,27 @@ export function EventsList() {
             {eventsPage && (
                 <ul>
                     {Object.keys(map).map((name) => (
-                        <div key={name} className="eventLists">
-                            <img
-                                height="100px"
-                                width="170px"
-                                src={map[name][1]}
-                            />
-                            <div style={{ height: "100px" }}>
-                                <p>{name}</p>
-                                <a href={map[name][0]}>{map[name][0]}</a>
+                        <div key={name}>
+                            <div className="eventLists">
+                                <img
+                                    height="100px"
+                                    width="170px"
+                                    src={map[name][1]}
+                                />
+                                <div className="date">
+                                    <p className="month">
+                                        {months[map[name][2]]}
+                                    </p>
+                                    <p className="day">{map[name][3]}</p>
+                                </div>
+                                <div className="info">
+                                    <p>{name}</p>
+                                    <a target={"_blank"} href={map[name][0]}>
+                                        View Tickets
+                                    </a>
+                                </div>
                             </div>
+                            <hr></hr>
                         </div>
                     ))}
                 </ul>
