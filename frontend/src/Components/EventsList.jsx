@@ -119,9 +119,19 @@ export function EventsList() {
                                     <p className="day">{map[name][3]}</p>
                                 </div>
                                 <div className="info">
+                                    {/*&& in case of null value, if null value present instead say TBD*/}
                                     <p>{name}</p>
-                                    <p className="time">
-                                        {map[name][5]}:{map[name][6]}
+                                    {map[name][5] && (
+                                        <p className="time">
+                                            {map[name][5]}:{map[name][6]}{" "}
+                                        </p>
+                                    )}
+                                    {!map[name][5] && (
+                                        <p className="time">TBD</p>
+                                    )}
+                                    <p>
+                                        {map[name][8]}, {map[name][9]} -{" "}
+                                        {map[name][7]}
                                     </p>
                                     <a target={"_blank"} href={map[name][0]}>
                                         View Tickets

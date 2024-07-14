@@ -40,27 +40,38 @@ public class EventController {
                 break;
             }
             JSONObject dates = arr.getJSONObject(i).getJSONObject("dates");
-            event.add(arr.getJSONObject(i).getString("url"));
-            event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
+            event.add(arr.getJSONObject(i).getString("url")); //link 0
+            event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url")); //img 1
 
             String event_date[] = dates.getJSONObject("start").getString("localDate").split("-");
-            event.add(event_date[1]); //month
-            event.add(event_date[2]); //day
+            event.add(event_date[1]); //month 2
+            event.add(event_date[2]); //day 3
 
-            event.add(dates.getJSONObject("status").getString("code"));
+            event.add(dates.getJSONObject("status").getString("code")); //status 4
 
-            String event_time[] = dates.getJSONObject("start").getString("localTime").split(":");
-            int hour = Integer.valueOf(event_time[0]);
-            if (hour > 12){
-                hour = hour - 12;
-                event_time[0] = String.valueOf(hour);
-                event_time[1] += " PM";
+            JSONObject time = dates.getJSONObject("start");
+            if (time.has("localTime")){
+                String event_time[] = time.getString("localTime").split(":"); 
+                int hour = Integer.valueOf(event_time[0]);
+                if (hour > 12){
+                    hour = hour - 12;
+                    event_time[0] = String.valueOf(hour);
+                    event_time[1] += " PM";
+                }
+                else{
+                    event_time[1] += " AM";
+                }
+                event.add(event_time[0]); //hour 5
+                event.add(event_time[1]); //minute 6
+            }else{
+                event.add(null); //no values 5,6
+                event.add(null);
             }
-            else{
-                event_time[1] += " AM";
-            }
-            event.add(event_time[0]); //hour
-            event.add(event_time[1]); //minute
+
+            JSONObject venue = arr.getJSONObject(i).getJSONObject("_embedded").getJSONArray("venues").getJSONObject(0);
+            event.add(venue.getString("name")); //venue 7
+            event.add(venue.getJSONObject("city").getString("name")); //city 8
+            event.add(venue.getJSONObject("state").getString("stateCode")); //state 9
             map.put(arr.getJSONObject(i).getString("name"), event);
         }
         return map;
