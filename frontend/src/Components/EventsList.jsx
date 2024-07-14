@@ -32,6 +32,7 @@ export function EventsList() {
     const [inputFlag, setInputFlag] = useState(false);
 
     function buildURL(currCount, artistPage, id) {
+        console.log(artistPage);
         //build the url we will use to do the API call on
         console.log(currCount);
         let url = "";
@@ -42,7 +43,7 @@ export function EventsList() {
                 url += `&keyword=${attraction}`;
             }
         } else if (artistPage) {
-            url += `/attraction?`;
+            url += `/eventSearch?`;
             url += `page=${currCount}&attractionId=${id}`;
         } else {
             setEventsPage(false);
@@ -68,9 +69,13 @@ export function EventsList() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await api.get(buildURL(count, artistSearch));
+                const res = await api.get(buildURL(count, artistSearch, ""));
                 setMap(res.data);
             } catch (error) {
+                setInputFlag(true);
+                setTimeout(() => {
+                    setInputFlag(false);
+                }, 2000);
                 console.log(error);
             }
         }
@@ -85,9 +90,16 @@ export function EventsList() {
             //react hooks work. count won't be updated by setCount() until the end of the function so it's just
             //sent via a param for immediate use
             setCount(count + 1);
-            const res = await api.get(buildURL(count + 1), artistSearch, "");
+            console.log("fetch: " + artistSearch);
+            const res = await api.get(buildURL(count + 1, artistSearch, ""));
             setMap(res.data);
         } catch (error) {
+            console.log(eventsPage);
+            setCount(count);
+            setInputFlag(true);
+            setTimeout(() => {
+                setInputFlag(false);
+            }, 2000);
             console.log(error);
         }
     }
@@ -101,6 +113,11 @@ export function EventsList() {
             const res = await api.get(buildURL(count - 1), artistSearch, "");
             setMap(res.data);
         } catch (error) {
+            setCount(count);
+            setInputFlag(true);
+            setTimeout(() => {
+                setInputFlag(false);
+            }, 2000);
             console.log(error);
         }
     }

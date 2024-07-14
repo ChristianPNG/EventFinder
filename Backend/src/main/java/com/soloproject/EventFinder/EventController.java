@@ -21,18 +21,31 @@ public class EventController {
 
 
     @GetMapping("/eventSearch")
-    public HashMap<String, ArrayList<String>> eventSearch(@RequestParam("CityName") String cityName, 
-    @RequestParam("page") String page,  @RequestParam(value = "keyword", required = false) String attraction, Model model){
-        String cityURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=";
-        String URL = cityURL + cityName + "&size=20&page="+ page;
+    public HashMap<String, ArrayList<String>> eventSearch(@RequestParam(value = "CityName", required = false) String cityName, 
+    @RequestParam("page") String page,  @RequestParam(value = "keyword", required = false) String attraction, 
+    @RequestParam(value = "attractionId", required = false) String id, Model model){
+        String URL = "https://app.ticketmaster.com/discovery/v2/events.json?";
+        if (cityName != null){
+            URL += "city=" + cityName + "&";
+        }
+        URL += "size=20&page="+ page;
         if (attraction != null){
             URL += "&keyword=" + attraction;
         }
+        if (id != null){
+            URL += "&attractionId=" + id;
+        }
         URL += "&" + this.API;
-        String jsonData = restTemplate.getForObject(URL, String.class);
-        JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
-        JSONArray arr = obj.getJSONArray("events");
+
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
+        String jsonData = restTemplate.getForObject(URL, String.class);
+        JSONObject obj = new JSONObject(jsonData);
+/*
+ *         if (!obj.has("_embedded")){
+            return map;
+        }
+ */
+        JSONArray arr = obj.getJSONObject("_embedded").getJSONArray("events");
         //ArrayList<String>eventURLs = new ArrayList<>();
         for (int i = 0; i<20; i++){
             ArrayList<String> event = new ArrayList<>();
@@ -103,7 +116,7 @@ public class EventController {
     public HashMap<String, ArrayList<String>> attraction(@RequestParam("attractionId") String id, 
     @RequestParam("page") String page, Model model){
         String url = "https://app.ticketmaster.com/discovery/v2/events.json?";
-        url += "size=15&page=" + page + "&attractionId=" + id + "&" + this.API;
+        url += "size=15&sort=relevance,desc&page=" + page + "&attractionId=" + id + "&" + this.API;
         String jsonData = restTemplate.getForObject(url, String.class);
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         JSONObject obj = new JSONObject(jsonData);
