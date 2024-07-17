@@ -83,21 +83,24 @@ export function Home() {
                 </div>
                 <div>
                     {!inputFlag && (
-                        <div>
-                            <ul>
-                                {Object.keys(map).map((key) => (
-                                    <div key={key}>
-                                        <div>{map[key][0]}</div>
-                                        <img src={map[key][2]} />
-                                        <div>
-                                            <p>{key}</p>
-                                            <button onClick={() => map[key][1]}>
-                                                X
-                                            </button>
-                                        </div>
+                        <div className="home-display">
+                            {Object.keys(map).map((key) => (
+                                <div key={key} className="item">
+                                    <img src={map[key][2]} />
+                                    <div className="overlay-text">
+                                        {key}: {" " + map[key][0]}
                                     </div>
-                                ))}
-                            </ul>
+                                    {/*<div>
+                                        <button
+                                            onClick={() => {
+                                                map[key][1];
+                                            }}
+                                        >
+                                            X
+                                        </button>
+                                    </div>*/}
+                                </div>
+                            ))}
                         </div>
                     )}
                     {inputFlag && <p>error!</p>}

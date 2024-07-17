@@ -83,3 +83,33 @@ form {
     background-color: rgb(105, 102, 108);
     cursor: pointer;
 }
+
+.home-display {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.item {
+    flex: 0 0 50%; /* Each item will take up 50% of the container's width */
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.item img {
+    width: 100%; /* Image takes up full width of its container */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 70%;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    color: white;
+}
