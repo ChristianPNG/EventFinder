@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -40,11 +39,6 @@ public class EventController {
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         String jsonData = restTemplate.getForObject(URL, String.class);
         JSONObject obj = new JSONObject(jsonData);
-/*
- *         if (!obj.has("_embedded")){
-            return map;
-        }
- */
         JSONArray arr = obj.getJSONObject("_embedded").getJSONArray("events");
         //ArrayList<String>eventURLs = new ArrayList<>();
         for (int i = 0; i<20; i++){
@@ -110,29 +104,34 @@ public class EventController {
         }
         return map;
 
-
     }
-    @GetMapping("/attraction")
-    public HashMap<String, ArrayList<String>> attraction(@RequestParam("attractionId") String id, 
-    @RequestParam("page") String page, Model model){
-        String url = "https://app.ticketmaster.com/discovery/v2/events.json?";
-        url += "size=15&sort=relevance,desc&page=" + page + "&attractionId=" + id + "&" + this.API;
+
+    @GetMapping("/suggestions")
+    public HashMap<String, ArrayList<String>> suggestionSearch(Model model){
+        String url = "https://app.ticketmaster.com/discovery/v2/suggest?" + this.API;
         String jsonData = restTemplate.getForObject(url, String.class);
+        JSONObject obj = new JSONObject(jsonData).getJSONObject("_embedded");
         HashMap<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
-        JSONObject obj = new JSONObject(jsonData);
-        obj = obj.getJSONObject("_embedded");
-        JSONArray arr = obj.getJSONArray("events");
-        //ArrayList<String>eventURLs = new ArrayList<>();
-        for (int i = 0; i<20; i++){
+
+        for(String key: obj.keySet()){
             ArrayList<String> event = new ArrayList<>();
-            if (i >= arr.length()){
-                break;
+            JSONArray arr = obj.getJSONArray(key);
+            event.add(arr.getJSONObject(0).getString("name"));
+            event.add(arr.getJSONObject(0).getString("url"));
+            JSONArray imagesArray = arr.getJSONObject(0).getJSONArray("images");
+
+            int maxWidth = imagesArray.getJSONObject(0).getInt("width");
+            String image = imagesArray.getJSONObject(0).getString("url");
+            for(int i=1; i<imagesArray.length(); i++){
+                JSONObject curr = imagesArray.getJSONObject(i);
+                if (curr.getInt("width") > maxWidth){
+                    image = curr.getString("url");
+                    maxWidth = curr.getInt("width");
+                }
             }
-            event.add(arr.getJSONObject(i).getString("url"));
-            event.add(arr.getJSONObject(i).getJSONArray("images").getJSONObject(0).getString("url"));
-            map.put(arr.getJSONObject(i).getString("name"), event);
+            event.add(image);
+            map.put(key, event);
         }
-        System.out.println(map);
         return map;
     }
 }

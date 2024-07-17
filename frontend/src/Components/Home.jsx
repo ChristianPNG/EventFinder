@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../css/Home.css";
+import api from "../api/axiosConfigs";
 
 export function Home() {
     const [city, setCity] = useState("");
     const [attraction, setAttraction] = useState("");
     const [inputError, setInputError] = useState("");
+    const [map, setMap] = useState({});
+    const [inputFlag, setInputFlag] = useState(false);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await api.get("/suggestions");
+                setMap(res.data);
+            } catch (error) {
+                setInputFlag(true);
+                setTimeout(() => {
+                    setInputFlag(false);
+                }, 2000);
+                console.log(error);
+            }
+        }
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -60,6 +80,27 @@ export function Home() {
                         </button>
                     </form>
                     {<p style={{ color: "red" }}>{inputError}</p>}
+                </div>
+                <div>
+                    {!inputFlag && (
+                        <div>
+                            <ul>
+                                {Object.keys(map).map((key) => (
+                                    <div key={key}>
+                                        <div>{map[key][0]}</div>
+                                        <img src={map[key][2]} />
+                                        <div>
+                                            <p>{key}</p>
+                                            <button onClick={() => map[key][1]}>
+                                                X
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    {inputFlag && <p>error!</p>}
                 </div>
             </div>
         </div>
