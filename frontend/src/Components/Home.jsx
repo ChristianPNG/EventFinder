@@ -86,19 +86,12 @@ export function Home() {
                         <div className="home-display">
                             {Object.keys(map).map((key) => (
                                 <div key={key} className="item">
-                                    <img src={map[key][2]} />
+                                    <a href={map[key][1]} target="_blank">
+                                        <img src={map[key][2]} />
+                                    </a>
                                     <div className="overlay-text">
-                                        {key}: {" " + map[key][0]}
+                                        {map[key][0]}
                                     </div>
-                                    {/*<div>
-                                        <button
-                                            onClick={() => {
-                                                map[key][1];
-                                            }}
-                                        >
-                                            X
-                                        </button>
-                                    </div>*/}
                                 </div>
                             ))}
                         </div>

@@ -88,7 +88,7 @@ form {
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 99%;
 }
 
 .item {
@@ -102,14 +102,19 @@ form {
 .item img {
     width: 100%; /* Image takes up full width of its container */
     height: auto; /* Maintain aspect ratio */
-    max-width: 70%;
+    max-width: 100%;
+}
+
+.item img:hover {
+    transition: transform 0.3s ease; /* Smooth transition */
+    transform: scale(1.05);
 }
 
 .overlay-text {
     position: absolute;
-    top: 90%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: black;
+    width: 100%;
+    bottom: 10%;
+    font-size: 25px;
     color: white;
+    mix-blend-mode: difference;
 }
