@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 
 @Entity
 @Data
-@Table(name = "STUDENTS")
-public class Student {
+@Table(name = "USER")
+public class User {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "USERNAME")
     private String name;
 
-    @Column(name = "EMAIL")
+    @Column(name = "PASSWORD")
     private String email;
 
     // getters and setters

@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class StudentController {
+public class UserController {
     @Autowired
-    private StudentRepository studentRepo;
+    private UserRepository UserRepo;
 
-    @GetMapping("/students")
-    public List<Student> listAll() {
-        return studentRepo.findAll();
+    @GetMapping("/Users")
+    public List<User> listAll() {
+        return UserRepo.findAll();
     }
 }
