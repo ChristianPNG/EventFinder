@@ -15,14 +15,13 @@
     flex-direction: column;
     flex-wrap: wrap;
 
-    width: 30%;
-    height: 100vh;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    justify-content: center;
 }
 
 input {
@@ -39,10 +38,30 @@ input {
 }
 
 .password-bar {
-    margin-bottom: 40%;
 }
 
 p {
     font-size: 13px;
     margin-left: 40px;
+}
+
+.sign-in-title {
+    margin-left: 40px;
+    margin-bottom: 0;
+    margin-top: 20%;
+}
+
+.sign-up-text {
+    margin-bottom: 20px;
+    font-size: 15px;
+    margin-left: 40px;
+}
+
+.sign-in-button {
+    background-color: rgb(53, 50, 255);
+    color: white;
+    border-radius: 2px;
+    margin-right: 40px;
+    margin-left: 70%;
+    margin-top: 10px;
 }

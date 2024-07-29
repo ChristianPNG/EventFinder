@@ -13,6 +13,7 @@ export function Login() {
                     <input className="username-bar" />
                     <p>Password</p>
                     <input className="password-bar" />
+                    <button className="sign-in-button">Sign In</button>
                 </form>
             </div>
         </div>
