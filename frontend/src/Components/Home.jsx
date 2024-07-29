@@ -8,8 +8,11 @@ export function Home() {
     const [inputError, setInputError] = useState("");
     const [map, setMap] = useState({});
     const [inputFlag, setInputFlag] = useState(false);
+    const [loginView, setLoginView] = useState(false);
 
     useEffect(() => {
+        //block of code ran only once immediately upon entering the site. Fills
+        //feed with suggestions received from an api call.
         async function fetchData() {
             try {
                 const res = await api.get("/suggestions");
@@ -27,6 +30,11 @@ export function Home() {
     }, []);
 
     function handleSubmit(e) {
+        /*
+         * Handles search button submission functionality.
+         * Depending on what search bar was filled, either city search or attraction search or both.
+         * It redirects the frontend to another route carrying the passed information as URL query parameter.
+         */
         e.preventDefault();
         if (city && attraction) {
             window.location.href = `/EventsList/${city}/${attraction}`;
@@ -41,6 +49,7 @@ export function Home() {
             }, 2000);
         }
     }
+
     return (
         <div className="home">
             <div className="search-page">
@@ -48,6 +57,12 @@ export function Home() {
                     <div className="banner">
                         <h1 className="banner-text">Event Finder</h1>
                     </div>
+                    <h3
+                        onClick={() => (window.location.href = "/Login")}
+                        className="login-text"
+                    >
+                        Login
+                    </h3>
                 </div>
                 <div className="search-bar-container">
                     <h2 className="search-bar-title">Search For an Event</h2>

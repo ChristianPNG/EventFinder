@@ -1,0 +1,48 @@
+.login-container {
+    /* container div needed for the form container to stay centered */
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+}
+
+.form-container {
+    position: absolute;
+    background-color: white;
+    border: 2px solid rgba(128, 128, 128, 0.275);
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    width: 30%;
+    height: 100vh;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    justify-content: center;
+}
+
+input {
+    padding: 9px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.604);
+    border-radius: 3px;
+}
+
+.username-bar {
+}
+
+.password-bar {
+    margin-bottom: 40%;
+}
+
+p {
+    font-size: 13px;
+    margin-left: 40px;
+}

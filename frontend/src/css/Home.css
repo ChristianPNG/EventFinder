@@ -37,6 +37,17 @@ form {
     color: white;
 }
 
+.login-text {
+    position: absolute;
+    right: 100px;
+    top: 10px;
+    font-family: "Roboto", sans-serif;
+    color: white;
+}
+.login-text:hover {
+    cursor: pointer;
+}
+
 .banner {
     display: flex;
     justify-content: center; /* Center horizontally */
