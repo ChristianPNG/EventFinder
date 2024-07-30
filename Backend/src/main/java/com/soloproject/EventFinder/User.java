@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Data //creates getters and setters for every field
+@Data //creates getters and setters for every field based on field names.
 @Table(name = "USERS")
 public class User {
 
@@ -17,7 +17,7 @@ public class User {
     private int id;
 
     @Column(name = "USERNAME")
-    private String name;
+    private String username;
 
     @Column(name = "PASSWORD")
     private String password;

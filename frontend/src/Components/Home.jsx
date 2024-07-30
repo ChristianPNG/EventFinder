@@ -8,7 +8,6 @@ export function Home() {
     const [inputError, setInputError] = useState("");
     const [map, setMap] = useState({});
     const [inputFlag, setInputFlag] = useState(false);
-    const [loginView, setLoginView] = useState(false);
 
     useEffect(() => {
         //block of code ran only once immediately upon entering the site. Fills
