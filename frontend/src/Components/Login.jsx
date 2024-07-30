@@ -9,11 +9,12 @@ export function Login() {
     async function retrieveAccount(e) {
         e.preventDefault(); //prevents page refresh
         try {
-            await api.get("/Users", {
+            const res = await api.post("/FindUser", {
                 id: 1, //fixed id to get through, won't be neccessary in the backend
-                name: Username,
+                username: Username,
                 password: Password,
             });
+            console.log(res.data);
         } catch (error) {
             console.log(error);
         }

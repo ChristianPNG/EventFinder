@@ -26,5 +26,8 @@ public class User {
         String encoded = DigestUtils.sha256Hex(password); //64 length
         this.password = encoded;
     }
+    public String getPassword(){
+        return this.password;
+    }
 
 }

@@ -22,7 +22,7 @@ public class UserController {
         return UserRepo.findAll();
     }
 
-    @GetMapping("/FindUser")
+    @PostMapping("/FindUser")
     public User findUser(@RequestBody User user){
         /*
          * Params: User object {id, username, password}
@@ -32,10 +32,11 @@ public class UserController {
          *      Null User if nothing matched.
          */
         List<User> users = UserRepo.findAllByUsername(user.getUsername());
-        String encodedPass = DigestUtils.sha256Hex(user.getPassword()); //64 length
 
         for (User filteredUser : users){
-            if (filteredUser.getPassword() == encodedPass){
+            System.out.println(filteredUser.getPassword());
+            if (filteredUser.getPassword().equals(user.getPassword())){
+                //get password auto encrypts
                 return filteredUser;
             }
         }
