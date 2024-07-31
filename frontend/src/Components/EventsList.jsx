@@ -24,12 +24,12 @@ const cancelled = {
 };
 
 export function EventsList() {
-    const { city, attraction } = useParams();
-    const [map, setMap] = useState({});
+    const { city, attraction } = useParams(); //grab city or attraction from url params
+    const [map, setMap] = useState({}); //map handles any data from the api
     const [count, setCount] = useState(0); //count needs to be a state as a let var will reset back to default
     const [eventsPage, setEventsPage] = useState(true);
     const [artistSearch, setArtistSearch] = useState(false);
-    const [inputFlag, setInputFlag] = useState(false);
+    const [inputFlag, setInputFlag] = useState(false); //triggers if input is incorrect
 
     function buildURL(currCount, artistPage, id) {
         console.log(artistPage);

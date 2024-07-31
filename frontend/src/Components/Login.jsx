@@ -14,8 +14,14 @@ export function Login() {
                 username: Username,
                 password: Password,
             });
-            sessionStorage.setItem("id", `${res.data.id}`);
-            sessionStorage.setItem("password", `${res.data.password}`);
+            if (res.data.username == null) {
+                console.log("no matching user");
+            } else {
+                sessionStorage.setItem("id", `${res.data.id}`);
+                sessionStorage.setItem("username", `${res.data.username}`);
+                sessionStorage.setItem("password", `${res.data.password}`);
+                window.location.href = "/";
+            }
         } catch (error) {
             console.log(error);
         }

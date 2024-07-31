@@ -48,6 +48,34 @@ form {
     cursor: pointer;
 }
 
+.header-login {
+    position: absolute;
+    right: 100px;
+    top: 10px;
+    height: 100px;
+    width: 100px;
+}
+
+.header-username {
+    color: white;
+    font-size: 17px;
+    margin-top: 16px;
+    margin-left: 2px;
+}
+
+.login-icon {
+    font-size: 45px;
+    color: white;
+}
+.login-icon:hover {
+    cursor: pointer;
+}
+
+.flex-icons {
+    display: flex;
+    flex-direction: row;
+}
+
 .banner {
     display: flex;
     justify-content: center; /* Center horizontally */

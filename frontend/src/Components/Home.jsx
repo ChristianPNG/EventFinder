@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import "../css/Home.css";
 import api from "../api/axiosConfigs";
+import { PiUserCircleThin } from "react-icons/pi";
 
 export function Home() {
     const [city, setCity] = useState("");
     const [attraction, setAttraction] = useState("");
     const [inputError, setInputError] = useState("");
     const [map, setMap] = useState({});
-    const [inputFlag, setInputFlag] = useState(false);
+    const [inputFlag, setInputFlag] = useState(false); //used to determine if input is incorrect
+    const [loginStatus, setLoginStatus] = useState(false); //used to determine if user is logged in or not
 
     useEffect(() => {
         //block of code ran only once immediately upon entering the site. Fills
@@ -16,6 +18,9 @@ export function Home() {
             try {
                 const res = await api.get("/suggestions");
                 setMap(res.data);
+                if (sessionStorage.getItem("id") != null) {
+                    setLoginStatus(true);
+                }
             } catch (error) {
                 setInputFlag(true);
                 setTimeout(() => {
@@ -56,12 +61,26 @@ export function Home() {
                     <div className="banner">
                         <h1 className="banner-text">Event Finder</h1>
                     </div>
-                    <h3
-                        onClick={() => (window.location.href = "/Login")}
-                        className="login-text"
-                    >
-                        Login
-                    </h3>
+                    {loginStatus && (
+                        <div className="header-login">
+                            <div className="flex-icons">
+                                <div className="login-icon">
+                                    <PiUserCircleThin />{" "}
+                                </div>
+                                <div className="header-username">
+                                    {sessionStorage.getItem("username")}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {!loginStatus && (
+                        <h3
+                            onClick={() => (window.location.href = "/Login")}
+                            className="login-text"
+                        >
+                            Login
+                        </h3>
+                    )}
                 </div>
                 <div className="search-bar-container">
                     <h2 className="search-bar-title">Search For an Event</h2>
@@ -95,6 +114,7 @@ export function Home() {
                     </form>
                     {<p style={{ color: "red" }}>{inputError}</p>}
                 </div>
+                {inputFlag && <p>error!</p>}
                 <div>
                     {!inputFlag && (
                         <div className="home-display">
@@ -110,7 +130,6 @@ export function Home() {
                             ))}
                         </div>
                     )}
-                    {inputFlag && <p>error!</p>}
                 </div>
             </div>
         </div>
