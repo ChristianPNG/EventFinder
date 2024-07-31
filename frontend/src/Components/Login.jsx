@@ -14,7 +14,8 @@ export function Login() {
                 username: Username,
                 password: Password,
             });
-            console.log(res.data);
+            sessionStorage.setItem("id", `${res.data.id}`);
+            sessionStorage.setItem("password", `${res.data.password}`);
         } catch (error) {
             console.log(error);
         }
@@ -32,13 +33,13 @@ export function Login() {
                     <div className="sign-up-text">
                         Not registered? <a>Sign up</a>
                     </div>
-                    <p>Username</p>
+                    <p className="text">Username</p>
                     <input
                         className="username-bar"
                         value={Username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <p>Password</p>
+                    <p className="text">Password</p>
                     <input
                         className="password-bar"
                         value={Password}

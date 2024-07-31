@@ -24,7 +24,7 @@
     transform: translate(-50%, -50%);
 }
 
-input {
+.username-bar {
     padding: 9px;
     margin-left: 40px;
     margin-right: 40px;
@@ -34,7 +34,17 @@ input {
     border-radius: 3px;
 }
 
-p {
+.password-bar {
+    padding: 9px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.604);
+    border-radius: 3px;
+}
+
+.text {
     font-size: 13px;
     margin-left: 40px;
 }
