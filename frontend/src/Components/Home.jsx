@@ -64,7 +64,12 @@ export function Home() {
                     {loginStatus && (
                         <div className="header-login">
                             <div className="flex-icons">
-                                <div className="login-icon">
+                                <div
+                                    className="login-icon"
+                                    onClick={() =>
+                                        (window.location.href = "/Profile")
+                                    }
+                                >
                                     <PiUserCircleThin />{" "}
                                 </div>
                                 <div className="header-username">

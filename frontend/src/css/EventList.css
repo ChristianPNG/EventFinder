@@ -50,7 +50,7 @@ p {
 }
 
 .info {
-    margin: 25px;
+    margin: 0px;
 }
 
 .cancelled-display {
@@ -65,4 +65,14 @@ p {
     font-size: 16px;
     font-weight: 500;
     color: rgb(101, 101, 101);
+}
+
+.bookmark {
+    font-size: 20px;
+    width: max-content;
+}
+
+.bookmark:hover {
+    cursor: pointer;
+    color: orange;
 }

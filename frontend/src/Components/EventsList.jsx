@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
 import "../css/EventList.css";
+import { BsBookmark } from "react-icons/bs";
 
 const months = {
     "01": "JAN",
@@ -161,6 +162,9 @@ export function EventsList() {
                                             {cancelled[map[name][4]]}
                                         </p>
                                     )}
+                                    <p className="bookmark">
+                                        <BsBookmark />
+                                    </p>
                                 </div>
                             </div>
                             <hr></hr>

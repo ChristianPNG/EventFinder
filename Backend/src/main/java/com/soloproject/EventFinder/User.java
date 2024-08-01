@@ -1,6 +1,8 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
+import java.util.Set;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import jakarta.persistence.*;
@@ -21,6 +23,14 @@ public class User {
 
     @Column(name = "PASSWORD")
     private String password;
+
+    @ManyToMany
+    @JoinTable(
+        name = "USERS_EVENTS",
+        joinColumns = @JoinColumn(name = "USER_ID"),
+        inverseJoinColumns = @JoinColumn(name = "EVENT_ID")
+    )
+    private Set<Event> savedEvents;
 
     public void setPassword(String password){
         String encoded = DigestUtils.sha256Hex(password); //64 length

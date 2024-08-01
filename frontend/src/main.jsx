@@ -6,6 +6,7 @@ import { Home } from "./Components/Home";
 import { EventsList } from "./Components/EventsList";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Login } from "./Components/Login";
+import { Profile } from "./Components/Profile";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         element: <EventsList />,
     },
     { path: "/Login", element: <Login /> },
+    { path: "/Profile", element: <Profile /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

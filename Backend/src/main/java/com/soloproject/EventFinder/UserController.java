@@ -51,4 +51,11 @@ public class UserController {
         user.setPassword(user.getPassword());
         UserRepo.save(user);
     }
+
+
+    
+    @PostMapping("/saveEvent")
+    public void saveEvent(@RequestBody User user, @RequestBody Event event){
+
+    }
 }
