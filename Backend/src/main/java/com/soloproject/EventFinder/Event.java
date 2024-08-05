@@ -1,6 +1,7 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -38,7 +39,7 @@ public class Event {
     private String state;
 
     @ManyToMany(mappedBy = "savedEvents")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
 
 }

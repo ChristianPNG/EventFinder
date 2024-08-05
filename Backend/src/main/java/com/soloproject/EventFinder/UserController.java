@@ -14,6 +14,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository UserRepo;
+    @Autowired
+    EventRepository EventRepo;
 
     //GET USERS
     @GetMapping("/Users")
@@ -25,8 +27,10 @@ public class UserController {
     public User findUser(@RequestBody User user){
         /*
          * Params: User object {id, username, password}
-         * Description: Get all users with corresponding username, check hashed password with the one given
-         *      if password hashings match, return user. If none matched the password was incorrect
+         * Description: Function used when logging in. Get all users with corresponding username, check 
+         *      hashed password with the one given,
+         *      if password hashings match, return user. If none matched the password was incorrect.
+         *      Considered a post mapping to allow request body.
          * Returns: User in database who's username + password match the given (filteredUser)
          *      Null User if nothing matched.
          */
@@ -53,9 +57,20 @@ public class UserController {
     }
 
 
-    
+
     @PostMapping("/saveEvent")
     public void saveEvent(@RequestBody User user, @RequestBody Event event){
-
+        Event curr_event = EventRepo.findById(event.getId());
+        if (curr_event == null){
+            EventRepo.save(event);
+            curr_event = event;
+        }
+        User curr_user = UserRepo.findById(user.getId());
+        if (curr_user.getPassword() != user.getPassword()){
+            return;
+        }
+        curr_event.getUsers().add(curr_user);
+        curr_user.getSavedEvents().add(curr_event);
+        UserRepo.save(curr_user);
     }
 }

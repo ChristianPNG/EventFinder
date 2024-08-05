@@ -1,6 +1,7 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -30,7 +31,7 @@ public class User {
         joinColumns = @JoinColumn(name = "USER_ID"),
         inverseJoinColumns = @JoinColumn(name = "EVENT_ID")
     )
-    private Set<Event> savedEvents;
+    private Set<Event> savedEvents = new HashSet<>();
 
     public void setPassword(String password){
         String encoded = DigestUtils.sha256Hex(password); //64 length
