@@ -12,8 +12,7 @@ import jakarta.persistence.*;
 public class Event {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(name = "NAME")
     private String name;

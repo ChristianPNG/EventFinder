@@ -79,7 +79,8 @@ public class EventAPI {
             event.add(venue.getString("name")); //venue 7
             event.add(venue.getJSONObject("city").getString("name")); //city 8
             event.add(venue.getJSONObject("state").getString("stateCode")); //state 9
-            map.put(arr.getJSONObject(i).getString("name"), event);
+            event.add(arr.getJSONObject(i).getString("name")); //name 10
+            map.put(arr.getJSONObject(i).getString("id"), event);
         }
         return map;
     }

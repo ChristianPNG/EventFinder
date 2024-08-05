@@ -122,47 +122,77 @@ export function EventsList() {
             console.log(error);
         }
     }
+
+    async function saveEvent(e, key) {
+        e.preventDefault();
+        console.log(key);
+        const event = {
+            id: key,
+            name: map[key][10],
+            URL: map[key][0],
+            image: map[key][1],
+            month: map[key][2],
+            day: map[key][3],
+            status: map[key][4],
+            hour: map[key][5],
+            minutes: map[key][6],
+            venue: map[key][7],
+            city: map[key][8],
+            state: map[key][9],
+        };
+        const user = {
+            id: sessionStorage.getItem("id"),
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        };
+        console.log(user.password);
+        const res = await api.post("/saveEvent", { user: user, event: event });
+        console.log(res);
+        return;
+    }
+
     return (
         <div>
             {eventsPage && (
                 <ul>
-                    {Object.keys(map).map((name) => (
-                        <div key={name}>
+                    {Object.keys(map).map((id) => (
+                        <div key={id}>
                             <div className="eventLists">
-                                <img src={map[name][1]} />
+                                <img src={map[id][1]} />
                                 <div className="date">
                                     <p className="month">
-                                        {months[map[name][2]]}
+                                        {months[map[id][2]]}
                                     </p>
-                                    <p className="day">{map[name][3]}</p>
+                                    <p className="day">{map[id][3]}</p>
                                 </div>
                                 <div className="info">
                                     {/*&& in case of null value, if null value present instead say TBD*/}
-                                    <p>{name}</p>
-                                    {map[name][5] && (
+                                    <p>{map[id][10]}</p>
+                                    {map[id][5] && (
                                         <p className="time">
-                                            {map[name][5]}:{map[name][6]}{" "}
+                                            {map[id][5]}:{map[id][6]}{" "}
                                         </p>
                                     )}
-                                    {!map[name][5] && (
-                                        <p className="time">TBD</p>
-                                    )}
+                                    {!map[id][5] && <p className="time">TBD</p>}
                                     <p>
-                                        {map[name][8]}, {map[name][9]} -{" "}
-                                        {map[name][7]}
+                                        {map[id][8]}, {map[id][9]} -{" "}
+                                        {map[id][7]}
                                     </p>
-                                    <a target={"_blank"} href={map[name][0]}>
+                                    <a target={"_blank"} href={map[id][0]}>
                                         View Tickets
                                     </a>
-                                    {/*[map[name][4]] = status code, mapped to the 'cancelled' hashmap will be 
+                                    {/*[map[id][4]] = status code, mapped to the 'cancelled' hashmap will be 
                                     either null or a value. If its null this block will not be shown due 
                                     to how <null> && () works by eliminating the next block if the first half is null*/}
-                                    {cancelled[map[name][4]] && (
+                                    {cancelled[map[id][4]] && (
                                         <p className="cancelled-display">
-                                            {cancelled[map[name][4]]}
+                                            {cancelled[map[id][4]]}
                                         </p>
                                     )}
-                                    <p className="bookmark">
+                                    <p
+                                        className="bookmark"
+                                        onClick={(e) => saveEvent(e, id)}
+                                    >
                                         <BsBookmark />
                                     </p>
                                 </div>
