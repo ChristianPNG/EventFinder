@@ -34,9 +34,14 @@ export function EventsList() {
     const [eventsList, setEventsList] = useState(new Set());
 
     function buildURL(currCount, artistPage, id) {
-        console.log(artistPage);
-        //build the url we will use to do the API call on
-        console.log(currCount);
+        /*
+         * Params: currCount - page number, artistPage - boolean, if we are only viewing events to a specific artist
+         *      id - id of an artist (string, could be empty)
+         * Description:There are 2 different pages that will be handled by the EventsList component.
+         *      1. standard list of events
+         *          - list of events, by a specific artist (artistPage) or city (city)
+         *      2. list of different artists themselves which is done by `setEventsPage(false)`
+         */
         let url = "";
         if (city) {
             url += `/eventSearch?CityName=${city}`;
@@ -69,6 +74,7 @@ export function EventsList() {
     }
 
     useEffect(() => {
+        //called on first page render
         async function fetchData() {
             try {
                 const res = await api.get(buildURL(count, artistSearch, ""));
@@ -131,6 +137,15 @@ export function EventsList() {
     }
 
     async function saveEvent(e, key) {
+        /*
+         * Params: e - defualt event handler, key - the id of the event given by the api itself and used in the database
+         *
+         * Description: this functions runs on empty bookmark click, it will check if the user is logged in, if not return.
+         *   It will then create an event object using information from the hashmap containing all visible events. This is done
+         *   via the key that was passed in. It will also make a user object using logged in credentials, once that is done it
+         *   calls the backend to create a relationship between the user and the event in the database.
+         *   Lastly it updates the set and events session storage in the frontend.
+         */
         if (sessionStorage.getItem("id") === null) {
             return;
         }
@@ -157,7 +172,9 @@ export function EventsList() {
         };
         try {
             await api.post("/saveEvent", { user: user, event: event });
-            //TODO: saveEvent and see if this works then try to call function from login.
+            //session storage must be saved as an array since it can't stringify sets but we still convert it to a set
+            //as its faster to convert it once and retrieve information, then it is to traverse the array and traverse
+            //each key id
             let eventSet = new Set();
             const events = JSON.parse(sessionStorage.getItem("events"));
             events.push(key);
@@ -175,7 +192,6 @@ export function EventsList() {
             return false;
         }
         if (eventsList.has(key)) {
-            console.log("true");
             return true;
         }
         return false;
@@ -195,7 +211,18 @@ export function EventsList() {
             password: sessionStorage.getItem("password"),
             savedEvents: sessionStorage.getItem("savedEvents"),
         };
-        await api.post("/unsaveEvent", { user: user, event: eventID });
+        try {
+            await api.post("/unsaveEvent", { user: user, event: eventID });
+            const eventSet = new Set(eventsList.delete(key));
+            setEventsList(eventSet);
+            sessionStorage.setItem(
+                "events",
+                JSON.stringify(Array.from(eventSet))
+            );
+        } catch (error) {
+            console.log(error);
+        }
+        return;
     }
 
     return (
