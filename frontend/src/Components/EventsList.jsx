@@ -209,11 +209,11 @@ export function EventsList() {
             id: sessionStorage.getItem("id"),
             username: sessionStorage.getItem("username"),
             password: sessionStorage.getItem("password"),
-            savedEvents: sessionStorage.getItem("savedEvents"),
         };
         try {
             await api.post("/unsaveEvent", { user: user, event: eventID });
-            const eventSet = new Set(eventsList.delete(key));
+            eventsList.delete(key);
+            const eventSet = new Set(eventsList);
             setEventsList(eventSet);
             sessionStorage.setItem(
                 "events",

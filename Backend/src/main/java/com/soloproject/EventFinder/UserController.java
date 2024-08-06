@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 @RestController
@@ -82,7 +84,25 @@ public class UserController {
         }
         curr_event.getUsers().add(curr_user);
         curr_user.getSavedEvents().add(curr_event);
-        System.out.println(curr_user.getSavedEvents().size());
+        UserRepo.save(curr_user);
+    }
+
+    @PostMapping("/unsaveEvent")
+    @Transactional
+    public void unsaveEvent(@RequestBody UserEvent UserEvent){
+        User user = UserEvent.getUser();
+        Event event = UserEvent.getEvent();
+        Event curr_event = EventRepo.findById(event.getId());
+        User curr_user = UserRepo.findById(user.getId());
+        String encoded = DigestUtils.sha256Hex(curr_user.getPassword()); 
+        //retreived password is already encoded so we need to double encode before comparing
+        if (!encoded.equals(user.getPassword()) || curr_event == null){
+            System.out.println("failed");
+            return;
+        }
+        curr_event.getUsers().remove(curr_user);
+        curr_user.getSavedEvents().remove(curr_event);
+        //TODO REMOVE EMPTY EVENTS, PROBABLY NEED TO HANDLE FOREIGN KEYS AS WELL
         UserRepo.save(curr_user);
     }
 }
