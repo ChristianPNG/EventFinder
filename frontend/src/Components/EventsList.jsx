@@ -159,11 +159,11 @@ export function EventsList() {
             await api.post("/saveEvent", { user: user, event: event });
             //TODO: saveEvent and see if this works then try to call function from login.
             let eventSet = new Set();
-            if (sessionStorage.getItem("events") !== null) {
-                const events = JSON.parse(sessionStorage.getItem("events"));
-                eventSet = new Set(events);
-            }
+            const events = JSON.parse(sessionStorage.getItem("events"));
+            events.push(key);
+            eventSet = new Set(events);
             setEventsList(eventSet);
+            sessionStorage.setItem("events", JSON.stringify(events));
         } catch (error) {
             console.log(error);
         }
