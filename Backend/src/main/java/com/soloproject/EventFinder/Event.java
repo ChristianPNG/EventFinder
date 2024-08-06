@@ -1,13 +1,19 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
 @Entity
-@Data //creates getters and setters for every field based on field names.
+@Getter //creates getters and setters for every field based on field names.
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "EVENTS")
 public class Event {
     @Id
@@ -38,7 +44,11 @@ public class Event {
     private String state;
 
     @ManyToMany(mappedBy = "savedEvents")
+    @JsonIgnore
     private Set<User> users = new HashSet<>();
 
+    public Set<User> getUsers(){
+        return this.users;
+    }
 
 }

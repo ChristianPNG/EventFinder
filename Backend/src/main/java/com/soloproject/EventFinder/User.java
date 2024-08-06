@@ -1,6 +1,7 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,10 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Data //creates getters and setters for every field based on field names.
+@Getter //creates getters and setters for every field based on field names.
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "USERS")
 public class User {
 
@@ -39,6 +43,10 @@ public class User {
     }
     public String getPassword(){
         return this.password;
+    }
+
+    public Set<Event> getSavedEvents(){
+        return this.savedEvents;
     }
 
 }

@@ -41,6 +41,7 @@ public class UserController {
             System.out.println(filteredUser.getPassword());
             if (filteredUser.getPassword().equals(user.getPassword())){
                 //get password auto encrypts
+                System.out.println(filteredUser.getSavedEvents().size());
                 return filteredUser;
             }
         }
@@ -60,27 +61,28 @@ public class UserController {
 
 
     @PostMapping("/saveEvent")
-        public void saveEvent(@RequestBody UserEvent UserEvent){
-            /*
-             * Params: UserEvent - a request body consisting of a user and the event the user wnats to save
-             * Description: Creates a M:M relationship in the database between given user and event
-             */
-            User user = UserEvent.getUser();
-            Event event = UserEvent.getEvent();
-            Event curr_event = EventRepo.findById(event.getId());
-            User curr_user = UserRepo.findById(user.getId());
-            String encoded = DigestUtils.sha256Hex(curr_user.getPassword()); 
-            //retreived password is already encoded so we need to double encode before comparing
-            if (!encoded.equals(user.getPassword())){
-                System.out.println("failed");
-                return;
-            }
-            if (curr_event == null){
-                EventRepo.save(event);
-                curr_event = event;
-            }
-            curr_event.getUsers().add(curr_user);
-            curr_user.getSavedEvents().add(curr_event);
-            UserRepo.save(curr_user);
+    public void saveEvent(@RequestBody UserEvent UserEvent){
+        /*
+            * Params: UserEvent - a request body consisting of a user and the event the user wnats to save
+            * Description: Creates a M:M relationship in the database between given user and event
+            */
+        User user = UserEvent.getUser();
+        Event event = UserEvent.getEvent();
+        Event curr_event = EventRepo.findById(event.getId());
+        User curr_user = UserRepo.findById(user.getId());
+        String encoded = DigestUtils.sha256Hex(curr_user.getPassword()); 
+        //retreived password is already encoded so we need to double encode before comparing
+        if (!encoded.equals(user.getPassword())){
+            System.out.println("failed");
+            return;
         }
+        if (curr_event == null){
+            EventRepo.save(event);
+            curr_event = event;
+        }
+        curr_event.getUsers().add(curr_user);
+        curr_user.getSavedEvents().add(curr_event);
+        System.out.println(curr_user.getSavedEvents().size());
+        UserRepo.save(curr_user);
+    }
 }

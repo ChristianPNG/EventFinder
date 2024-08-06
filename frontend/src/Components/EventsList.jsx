@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import api from "../api/axiosConfigs";
 import { useEffect, useState } from "react";
 import "../css/EventList.css";
-import { BsBookmark } from "react-icons/bs";
+import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 
 const months = {
     "01": "JAN",
@@ -31,6 +31,7 @@ export function EventsList() {
     const [eventsPage, setEventsPage] = useState(true);
     const [artistSearch, setArtistSearch] = useState(false);
     const [inputFlag, setInputFlag] = useState(false); //triggers if input is incorrect
+    const [eventsList, setEventsList] = useState(new Set());
 
     function buildURL(currCount, artistPage, id) {
         console.log(artistPage);
@@ -72,6 +73,12 @@ export function EventsList() {
             try {
                 const res = await api.get(buildURL(count, artistSearch, ""));
                 setMap(res.data);
+                let eventSet = new Set();
+                if (sessionStorage.getItem("events") !== null) {
+                    const events = JSON.parse(sessionStorage.getItem("events"));
+                    eventSet = new Set(events);
+                }
+                setEventsList(eventSet);
             } catch (error) {
                 setInputFlag(true);
                 setTimeout(() => {
@@ -124,6 +131,9 @@ export function EventsList() {
     }
 
     async function saveEvent(e, key) {
+        if (sessionStorage.getItem("id") === null) {
+            return;
+        }
         e.preventDefault();
         console.log(key);
         const event = {
@@ -145,10 +155,47 @@ export function EventsList() {
             username: sessionStorage.getItem("username"),
             password: sessionStorage.getItem("password"),
         };
-        console.log(user.password);
-        const res = await api.post("/saveEvent", { user: user, event: event });
-        console.log(res);
+        try {
+            await api.post("/saveEvent", { user: user, event: event });
+            //TODO: saveEvent and see if this works then try to call function from login.
+            let eventSet = new Set();
+            if (sessionStorage.getItem("events") !== null) {
+                const events = JSON.parse(sessionStorage.getItem("events"));
+                eventSet = new Set(events);
+            }
+            setEventsList(eventSet);
+        } catch (error) {
+            console.log(error);
+        }
         return;
+    }
+
+    function isSavedEvent(key) {
+        if (sessionStorage.getItem("id") === null) {
+            return false;
+        }
+        if (eventsList.has(key)) {
+            console.log("true");
+            return true;
+        }
+        return false;
+    }
+
+    async function unsaveEvent(e, key) {
+        e.preventDefault();
+        if (sessionStorage.getItem("id") === null) {
+            return;
+        }
+        const eventID = {
+            id: key,
+        };
+        const user = {
+            id: sessionStorage.getItem("id"),
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+            savedEvents: sessionStorage.getItem("savedEvents"),
+        };
+        await api.post("/unsaveEvent", { user: user, event: eventID });
     }
 
     return (
@@ -189,12 +236,21 @@ export function EventsList() {
                                             {cancelled[map[id][4]]}
                                         </p>
                                     )}
-                                    <p
-                                        className="bookmark"
-                                        onClick={(e) => saveEvent(e, id)}
-                                    >
-                                        <BsBookmark />
-                                    </p>
+                                    {isSavedEvent(id) ? (
+                                        <p
+                                            className="bookmark"
+                                            onClick={(e) => unsaveEvent(e, id)}
+                                        >
+                                            <BsFillBookmarkFill />
+                                        </p>
+                                    ) : (
+                                        <p
+                                            className="bookmark"
+                                            onClick={(e) => saveEvent(e, id)}
+                                        >
+                                            <BsBookmark />
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             <hr></hr>

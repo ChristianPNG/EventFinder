@@ -20,6 +20,11 @@ export function Login() {
                 sessionStorage.setItem("id", `${res.data.id}`);
                 sessionStorage.setItem("username", `${res.data.username}`);
                 sessionStorage.setItem("password", `${res.data.password}`);
+                const eventIdSet = [];
+                for (const event of res.data.savedEvents) {
+                    eventIdSet.push(event.id);
+                }
+                sessionStorage.setItem("events", JSON.stringify(eventIdSet));
                 window.location.href = "/";
             }
         } catch (error) {
