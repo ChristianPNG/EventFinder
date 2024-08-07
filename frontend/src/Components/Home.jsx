@@ -59,33 +59,40 @@ export function Home() {
             <div className="search-page">
                 <div className="header">
                     <div className="banner">
-                        <h1 className="banner-text">Event Finder</h1>
-                    </div>
-                    {loginStatus && (
-                        <div className="header-login">
-                            <div className="flex-icons">
-                                <div
-                                    className="login-icon"
-                                    onClick={() =>
-                                        (window.location.href = "/Profile")
-                                    }
-                                >
-                                    <PiUserCircleThin />{" "}
-                                </div>
-                                <div className="header-username">
-                                    {sessionStorage.getItem("username")}
+                        <h1
+                            onClick={() => (window.location.href = "/")}
+                            className="banner-text"
+                        >
+                            Event Finder
+                        </h1>
+                        {loginStatus && (
+                            <div className="header-login">
+                                <div className="flex-icons">
+                                    <div
+                                        className="login-icon"
+                                        onClick={() =>
+                                            (window.location.href = "/Profile")
+                                        }
+                                    >
+                                        <PiUserCircleThin />{" "}
+                                    </div>
+                                    <div className="header-username">
+                                        {sessionStorage.getItem("username")}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
-                    {!loginStatus && (
-                        <h3
-                            onClick={() => (window.location.href = "/Login")}
-                            className="login-text"
-                        >
-                            Login
-                        </h3>
-                    )}
+                        )}
+                        {!loginStatus && (
+                            <h3
+                                onClick={() =>
+                                    (window.location.href = "/Login")
+                                }
+                                className="login-text"
+                            >
+                                Login
+                            </h3>
+                        )}
+                    </div>
                 </div>
                 <div className="search-bar-container">
                     <h2 className="search-bar-title">Search For an Event</h2>
@@ -137,6 +144,7 @@ export function Home() {
                     )}
                 </div>
             </div>
+            <div className="footer"></div>
         </div>
     );
 }
