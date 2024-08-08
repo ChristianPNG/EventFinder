@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.transaction.Transactional;
@@ -24,6 +25,12 @@ public class UserController {
     @GetMapping("/Users")
     public List<User> listAll() {
         return UserRepo.findAll();
+    }
+
+    @GetMapping("/getEvents")
+    public Event[] getEvents(@RequestParam("id") int id){
+        User user = UserRepo.findById(id);
+        return user.getSavedEvents().toArray(new Event[0]);
     }
 
     @PostMapping("/FindUser")
@@ -82,6 +89,7 @@ public class UserController {
             EventRepo.save(event);
             curr_event = event;
         }
+        System.out.println(curr_event.getUrl());
         curr_event.getUsers().add(curr_user);
         curr_user.getSavedEvents().add(curr_event);
         UserRepo.save(curr_user);

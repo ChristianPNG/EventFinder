@@ -150,11 +150,11 @@ export function EventsList() {
             return;
         }
         e.preventDefault();
-        console.log(key);
+        console.log(map[key][0]);
         const event = {
             id: key,
             name: map[key][10],
-            URL: map[key][0],
+            url: map[key][0],
             image: map[key][1],
             month: map[key][2],
             day: map[key][3],

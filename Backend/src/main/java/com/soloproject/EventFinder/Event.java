@@ -1,7 +1,6 @@
 package com.soloproject.EventFinder;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class Event {
     @Column(name = "NAME")
     private String name;
     @Column(name = "URL")
-    private String URL;
+    private String url;
     @Column(name = "IMAGE")
     private String image;
     @Column(name = "MONTH")
