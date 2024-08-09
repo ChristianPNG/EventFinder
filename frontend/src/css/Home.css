@@ -90,7 +90,7 @@ form {
     align-items: center; /* Center vertically */
     height: 80px;
     gap: 20px;
-    background-color: rgb(58, 15, 95);
+    background-color: #394758;
 }
 
 .search-bar {
@@ -98,7 +98,7 @@ form {
     font-size: larger;
     border: 0px solid #ccc;
     border-radius: 10px;
-    background-color: rgb(58, 15, 95);
+    background-color: #394758;
     padding: 0 15px; /* Add padding to give some space inside the input */
     color: white;
     border-bottom-right-radius: 0;
@@ -170,5 +170,5 @@ form {
 
 .footer {
     height: 100px;
-    background-color: rgb(51, 51, 51);
+    background-color: #303030;
 }

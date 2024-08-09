@@ -234,16 +234,16 @@ export function EventsList() {
 
     return (
         <div>
-            {eventsPage && (
-                <>
-                    <div className="banner">
-                        <h1
-                            onClick={() => (window.location.href = "/")}
-                            className="banner-text"
-                        >
-                            Event Finder
-                        </h1>
-                    </div>
+            <div className="banner">
+                <h1
+                    onClick={() => (window.location.href = "/")}
+                    className="banner-text"
+                >
+                    Event Finder
+                </h1>
+            </div>
+            <div className="eventsPage">
+                {eventsPage && (
                     <ul>
                         {Object.keys(map).map((id) => (
                             <div key={id}>
@@ -306,23 +306,13 @@ export function EventsList() {
                             </div>
                         ))}
                     </ul>
-                </>
-            )}
-            {inputFlag && (
-                <div className="errorBlock" style={{ color: "red" }}>
-                    No events found.
-                </div>
-            )}
-            {!eventsPage && (
-                <>
-                    <div className="banner">
-                        <h1
-                            onClick={() => (window.location.href = "/")}
-                            className="banner-text"
-                        >
-                            Event Finder
-                        </h1>
+                )}
+                {inputFlag && (
+                    <div className="errorBlock" style={{ color: "red" }}>
+                        No events found.
                     </div>
+                )}
+                {!eventsPage && (
                     <ul>
                         {Object.keys(map).map((name) => (
                             <div key={name}>
@@ -342,10 +332,10 @@ export function EventsList() {
                             </div>
                         ))}
                     </ul>
-                </>
-            )}
-            <button onClick={(e) => fetchPrevData(e)}>Prev</button>
-            <button onClick={(e) => fetchNextData(e)}>Next</button>
+                )}
+                <button onClick={(e) => fetchPrevData(e)}>Prev</button>
+                <button onClick={(e) => fetchNextData(e)}>Next</button>
+            </div>
         </div>
     );
 }
