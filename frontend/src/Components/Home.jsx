@@ -10,8 +10,10 @@ export function Home() {
     const [map, setMap] = useState({});
     const [inputFlag, setInputFlag] = useState(false); //used to determine if input is incorrect
     const [loginStatus, setLoginStatus] = useState(false); //used to determine if user is logged in or not
+    const [isLoading, setIsLoading] = useState(true); //will be true on first render and will be false after the first use effect
 
     useEffect(() => {
+        //first use effect:
         //block of code ran only once immediately upon entering the site. Fills
         //feed with suggestions received from an api call.
         async function fetchData() {
@@ -27,6 +29,8 @@ export function Home() {
                     setInputFlag(false);
                 }, 2000);
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();
@@ -52,6 +56,10 @@ export function Home() {
                 setInputError("");
             }, 2000);
         }
+    }
+
+    if (isLoading) {
+        return <div></div>;
     }
 
     return (
@@ -121,7 +129,7 @@ export function Home() {
                             onChange={(e) => setAttraction(e.target.value)}
                         />
                         <button type="submit" className="submit-btn">
-                            X
+                            Search
                         </button>
                     </form>
                     {<p style={{ color: "red" }}>{inputError}</p>}

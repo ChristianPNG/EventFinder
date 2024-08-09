@@ -32,6 +32,7 @@ export function EventsList() {
     const [artistSearch, setArtistSearch] = useState(false);
     const [inputFlag, setInputFlag] = useState(false); //triggers if input is incorrect
     const [eventsList, setEventsList] = useState(new Set());
+    const [isLoading, setIsLoading] = useState(true); //will be true on first render and will be false after the first use effect
 
     function buildURL(currCount, artistPage, id) {
         /*
@@ -91,6 +92,8 @@ export function EventsList() {
                     setInputFlag(false);
                 }, 2000);
                 console.log(error);
+            } finally {
+                setIsLoading(false);
             }
         }
         fetchData();
@@ -225,65 +228,85 @@ export function EventsList() {
         return;
     }
 
+    if (isLoading) {
+        return <div></div>;
+    }
+
     return (
         <div>
             {eventsPage && (
-                <ul>
-                    {Object.keys(map).map((id) => (
-                        <div key={id}>
-                            <div className="eventLists">
-                                <img src={map[id][1]} />
-                                <div className="date">
-                                    <p className="month">
-                                        {months[map[id][2]]}
-                                    </p>
-                                    <p className="day">{map[id][3]}</p>
+                <>
+                    <div className="banner">
+                        <h1
+                            onClick={() => (window.location.href = "/")}
+                            className="banner-text"
+                        >
+                            Event Finder
+                        </h1>
+                    </div>
+                    <ul>
+                        {Object.keys(map).map((id) => (
+                            <div key={id}>
+                                <div className="eventLists">
+                                    <img src={map[id][1]} />
+                                    <div className="date">
+                                        <p className="month">
+                                            {months[map[id][2]]}
+                                        </p>
+                                        <p className="day">{map[id][3]}</p>
+                                    </div>
+                                    <div className="info">
+                                        {/*&& in case of null value, if null value present instead say TBD*/}
+                                        <p>{map[id][10]}</p>
+                                        {map[id][5] && (
+                                            <p className="time">
+                                                {map[id][5]}:{map[id][6]}{" "}
+                                            </p>
+                                        )}
+                                        {!map[id][5] && (
+                                            <p className="time">TBD</p>
+                                        )}
+                                        <p>
+                                            {map[id][8]}, {map[id][9]} -{" "}
+                                            {map[id][7]}
+                                        </p>
+                                        <a target={"_blank"} href={map[id][0]}>
+                                            View Tickets
+                                        </a>
+                                        {/*[map[id][4]] = status code, mapped to the 'cancelled' hashmap will be
+            either null or a value. If its null this block will not be shown due
+            to how <null> && () works by eliminating the next block if the first half is null*/}
+                                        {cancelled[map[id][4]] && (
+                                            <p className="cancelled-display">
+                                                {cancelled[map[id][4]]}
+                                            </p>
+                                        )}
+                                        {isSavedEvent(id) ? (
+                                            <p
+                                                className="bookmark"
+                                                onClick={(e) =>
+                                                    unsaveEvent(e, id)
+                                                }
+                                            >
+                                                <BsFillBookmarkFill />
+                                            </p>
+                                        ) : (
+                                            <p
+                                                className="bookmark"
+                                                onClick={(e) =>
+                                                    saveEvent(e, id)
+                                                }
+                                            >
+                                                <BsBookmark />
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
-                                <div className="info">
-                                    {/*&& in case of null value, if null value present instead say TBD*/}
-                                    <p>{map[id][10]}</p>
-                                    {map[id][5] && (
-                                        <p className="time">
-                                            {map[id][5]}:{map[id][6]}{" "}
-                                        </p>
-                                    )}
-                                    {!map[id][5] && <p className="time">TBD</p>}
-                                    <p>
-                                        {map[id][8]}, {map[id][9]} -{" "}
-                                        {map[id][7]}
-                                    </p>
-                                    <a target={"_blank"} href={map[id][0]}>
-                                        View Tickets
-                                    </a>
-                                    {/*[map[id][4]] = status code, mapped to the 'cancelled' hashmap will be 
-                                    either null or a value. If its null this block will not be shown due 
-                                    to how <null> && () works by eliminating the next block if the first half is null*/}
-                                    {cancelled[map[id][4]] && (
-                                        <p className="cancelled-display">
-                                            {cancelled[map[id][4]]}
-                                        </p>
-                                    )}
-                                    {isSavedEvent(id) ? (
-                                        <p
-                                            className="bookmark"
-                                            onClick={(e) => unsaveEvent(e, id)}
-                                        >
-                                            <BsFillBookmarkFill />
-                                        </p>
-                                    ) : (
-                                        <p
-                                            className="bookmark"
-                                            onClick={(e) => saveEvent(e, id)}
-                                        >
-                                            <BsBookmark />
-                                        </p>
-                                    )}
-                                </div>
+                                <hr></hr>
                             </div>
-                            <hr></hr>
-                        </div>
-                    ))}
-                </ul>
+                        ))}
+                    </ul>
+                </>
             )}
             {inputFlag && (
                 <div className="errorBlock" style={{ color: "red" }}>
@@ -291,25 +314,35 @@ export function EventsList() {
                 </div>
             )}
             {!eventsPage && (
-                <ul>
-                    {Object.keys(map).map((name) => (
-                        <div key={name}>
-                            <img
-                                height="100px"
-                                width="170px"
-                                src={map[name][1]}
-                            />
-                            <div>
-                                <p>{name}</p>
-                                <button
-                                    onClick={() => viewArtist(map[name][0])}
-                                >
-                                    X
-                                </button>
+                <>
+                    <div className="banner">
+                        <h1
+                            onClick={() => (window.location.href = "/")}
+                            className="banner-text"
+                        >
+                            Event Finder
+                        </h1>
+                    </div>
+                    <ul>
+                        {Object.keys(map).map((name) => (
+                            <div key={name}>
+                                <img
+                                    height="100px"
+                                    width="170px"
+                                    src={map[name][1]}
+                                />
+                                <div>
+                                    <p>{name}</p>
+                                    <button
+                                        onClick={() => viewArtist(map[name][0])}
+                                    >
+                                        X
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </ul>
+                        ))}
+                    </ul>
+                </>
             )}
             <button onClick={(e) => fetchPrevData(e)}>Prev</button>
             <button onClick={(e) => fetchNextData(e)}>Next</button>
