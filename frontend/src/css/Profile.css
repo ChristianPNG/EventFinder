@@ -2,4 +2,6 @@
     position: relative;
     height: 100vh;
     width: 100%;
+    margin-top: 80px; /*room for header*/
+    margin-bottom: 60px; /*room for footer*/
 }

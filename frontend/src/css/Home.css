@@ -15,6 +15,7 @@ form {
 
 .search-page {
     width: 100%;
+    margin-top: 80px;
     background-color: rgb(255, 255, 255);
 }
 
@@ -81,6 +82,9 @@ form {
 }
 
 .banner {
+    position: absolute;
+    top: 0;
+    width: 100%;
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */

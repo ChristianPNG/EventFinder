@@ -26,15 +26,15 @@ export function Profile() {
 
     return (
         <div>
+            <div className="banner">
+                <h1
+                    onClick={() => (window.location.href = "/")}
+                    className="banner-text"
+                >
+                    Event Finder
+                </h1>
+            </div>
             <div className="profile-page-container">
-                <div className="banner">
-                    <h1
-                        onClick={() => (window.location.href = "/")}
-                        className="banner-text"
-                    >
-                        Event Finder
-                    </h1>
-                </div>
                 <h2>My Saved Events</h2>
                 <div>
                     {Events.map((obj) => (

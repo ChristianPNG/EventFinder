@@ -52,6 +52,7 @@ export function Login() {
                     />
                     <p className="text">Password</p>
                     <input
+                        type="password"
                         className="password-bar"
                         value={Password}
                         onChange={(e) => setPassword(e.target.value)}
