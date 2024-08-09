@@ -314,23 +314,28 @@ export function EventsList() {
                 )}
                 {!eventsPage && (
                     <ul>
-                        {Object.keys(map).map((name) => (
-                            <div key={name}>
-                                <img
-                                    height="100px"
-                                    width="170px"
-                                    src={map[name][1]}
-                                />
-                                <div>
-                                    <p>{name}</p>
-                                    <button
-                                        onClick={() => viewArtist(map[name][0])}
-                                    >
-                                        X
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                        <div>
+                            {Object.keys(map).map((name) => (
+                                <>
+                                    <div key={name} className="artistList">
+                                        <img
+                                            height="100px"
+                                            width="170px"
+                                            src={map[name][1]}
+                                        />
+                                        <p
+                                            className="artist"
+                                            onClick={() =>
+                                                viewArtist(map[name][0])
+                                            }
+                                        >
+                                            {name}
+                                        </p>
+                                    </div>
+                                    <hr></hr>
+                                </>
+                            ))}
+                        </div>
                     </ul>
                 )}
                 <button onClick={(e) => fetchPrevData(e)}>Prev</button>
