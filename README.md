@@ -2,6 +2,8 @@
 EventFinder is a web application designed to help users discover and save events based on their city or specific artists. All events are tied to a 3rd party ticket system, 
 allowing users to search for events, save them for later, and filter results to find exactly what they're looking for.
 
+Demo: https://christianpng.github.io/Portfolio-Website/#/EventFinder
+
 ## Features
 Search Events: Find events by city or artist.
 Search Artists: Discover events by searching for specific artists.
